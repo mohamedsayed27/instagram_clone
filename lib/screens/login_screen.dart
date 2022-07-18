@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:instagram_clone/utils/colors.dart';
 import 'package:instagram_clone/widgets/default_button.dart';
-import 'package:instagram_clone/widgets/text_form_feild.dart';
+import 'package:instagram_clone/widgets/text_form_field.dart';
 
 class LoginScreen extends StatefulWidget {
   const LoginScreen({Key? key}) : super(key: key);
@@ -46,6 +46,11 @@ class _LoginScreenState extends State<LoginScreen> {
               keyboardType: TextInputType.emailAddress,
               isPassword: false,
               prefixIcon: const Icon(Icons.email, color: primaryColor,),
+              validate: (){
+                if(emailController.text.isEmpty){
+                  return 'Please Enter your mail';
+                }
+              },
             ),
             const SizedBox(height: 24,),
             //password textFormField
@@ -55,6 +60,11 @@ class _LoginScreenState extends State<LoginScreen> {
               keyboardType: TextInputType.emailAddress,
               isPassword: true,
               prefixIcon: const Icon(Icons.lock, color: primaryColor,),
+              validate: (){
+                if(passwordController.text.isEmpty){
+                  return 'Please Enter your password';
+                }
+              },
             ),
             const SizedBox(height: 24,),
             SpecialButton(
@@ -67,7 +77,7 @@ class _LoginScreenState extends State<LoginScreen> {
             Flexible(flex: 1,child: Container(),),
             Row(
               mainAxisAlignment: MainAxisAlignment.center,
-              children: [
+              children: const [
                 Text('you don\'t have an account ..?  '),
                 Text('Sign Up',style: TextStyle(color: primaryColor,fontWeight: FontWeight.bold),),
               ],
