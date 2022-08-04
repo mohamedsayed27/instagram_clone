@@ -14,4 +14,15 @@ class StorageMethods {
     String url = await snap.ref.getDownloadURL();
     return url;
   }
+
+
+
+  // trying by myself
+  Future<String> uploadImageToStorage(String childName,Uint8List file)async{
+    Reference reference = storage.ref().child(childName).child(auth.currentUser!.uid);
+   UploadTask task =  reference.putData(file);
+   TaskSnapshot taskSnapshot = await task;
+   String url = await taskSnapshot.ref.getDownloadURL();
+   return url;
+  }
 }

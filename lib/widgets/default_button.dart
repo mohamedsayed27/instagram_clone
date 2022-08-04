@@ -3,7 +3,6 @@ import 'package:flutter/material.dart';
 class SpecialButton extends StatelessWidget {
   final Color bColor;
   final Color oLayColor;
-
   final Color tColor;
   final String text;
   final Function press;
