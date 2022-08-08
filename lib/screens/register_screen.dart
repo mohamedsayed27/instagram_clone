@@ -79,7 +79,6 @@ class _RegisterScreenState extends State<RegisterScreen> {
 
       if(res == 'success'){
         showSnackBar(content: res, context: context);
-        Navigator.pushReplacement(context, MaterialPageRoute(builder: (context)=>ResponsiveLayout(webScreen: WebScreenLayout(), mobileScreen: MobileScreenLayout())));
       }else{
         showSnackBar(content: res, context: context);
       }
@@ -223,6 +222,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                         press: () async {
                           if (formKey.currentState!.validate()) {
                             signUp();
+                            Navigator.pushReplacement(context, MaterialPageRoute(builder: (context)=>const ResponsiveLayout(webScreen: WebScreenLayout(), mobileScreen: MobileScreenLayout())));
                           }
                         },
                         oLayColor: Colors.white60),

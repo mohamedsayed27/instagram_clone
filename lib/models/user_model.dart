@@ -1,3 +1,5 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
+
 class UserModel{
    String? email;
    String? name;
@@ -36,5 +38,17 @@ class UserModel{
       'uId': userId,
       'photoUrl':image,
     };
+  }
+
+  static UserModel fromSnap(DocumentSnapshot snap){
+    var snapshot = snap.data() as Map<String, dynamic>;
+    return UserModel(
+        email: snapshot['email'],
+        name: snapshot['name'],
+        followers: snapshot['followers'],
+        following: snapshot['following'],
+        bio: snapshot['bio'],
+        userId: snapshot['uId'],
+        image: snapshot['photoUrl']);
   }
 }
