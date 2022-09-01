@@ -31,7 +31,7 @@ class AuthMethods {
         UserCredential credential = await auth.createUserWithEmailAndPassword(
             email: email, password: password);
         String photoUrl =
-        await StorageMethods().uploadPhotoToFirebase('profilePicks', file);
+        await StorageMethods().uploadPhotoToFirebase('profilePicks', file,false);
         await firestore.collection('users').doc(credential.user!.uid).set({
           'email': email,
           'name': name,
