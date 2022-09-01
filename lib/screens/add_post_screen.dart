@@ -23,6 +23,7 @@ class _AddPostScreenState extends State<AddPostScreen> {
     descriptionController.dispose();
   }
 
+  bool isLoading = false;
   Uint8List? file;
   TextEditingController descriptionController = TextEditingController();
 
@@ -32,9 +33,18 @@ class _AddPostScreenState extends State<AddPostScreen> {
     required String profileImage,
   }) async{
     try{
+      setState(() {
+        isLoading = true;
+      });
       String res = await FirestoreMethods().uploadPost(discribtion: descriptionController.text, file: file!, uId: uId, userName: userName, profileImage: profileImage);
       if(res == 'Success'){
+        setState(() {
+          isLoading = false;
+          descriptionController.text='';
+          file = null;
+        });
         showSnackBar(content: 'Posted', context: context);
+
       }else{
         showSnackBar(content: res, context: context);
       }
@@ -85,6 +95,12 @@ class _AddPostScreenState extends State<AddPostScreen> {
     );
   }
 
+  void removePostPhotoAndPostDescription(){
+    setState(() {
+      descriptionController.text = '';
+      file = null;
+    });
+  }
   @override
   Widget build(BuildContext context) {
     final UserModel user = Provider.of<UserProvider>(context).getUser;
@@ -122,6 +138,10 @@ class _AddPostScreenState extends State<AddPostScreen> {
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
+                  if(isLoading ==true) const Padding(
+                    padding:  EdgeInsets.only(top: 8,bottom: 8),
+                    child:  LinearProgressIndicator(),
+                  ),
                   Row(
                     mainAxisAlignment: MainAxisAlignment.start,
                     crossAxisAlignment: CrossAxisAlignment.start,
