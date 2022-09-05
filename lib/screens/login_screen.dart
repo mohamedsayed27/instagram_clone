@@ -1,12 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:instagram_clone/resources/auth_methods.dart';
-import 'package:instagram_clone/screens/home_screen.dart';
 import 'package:instagram_clone/screens/register_screen.dart';
 import 'package:instagram_clone/utils/colors.dart';
 import 'package:instagram_clone/utils/utils.dart';
 import 'package:instagram_clone/widgets/default_button.dart';
 import 'package:instagram_clone/widgets/text_form_field.dart';
+import '../responsive/mobile_screen_layout.dart';
+import '../responsive/responsive_layout_screen.dart';
+import '../responsive/web_screen_layout.dart';
 
 class LoginScreen extends StatefulWidget {
   const LoginScreen({Key? key}) : super(key: key);
@@ -36,11 +38,7 @@ class _LoginScreenState extends State<LoginScreen> {
         email: emailController.text, password: passwordController.text);
 
     if (res == 'success') {
-      showSnackBar(content: res, context: context);
-      Navigator.pushAndRemoveUntil(
-          context,
-          MaterialPageRoute(builder: (context) => HomeScreen()),
-          (route) => false);
+      showSnackBar(content: 'Login successfully', context: context);
     } else {
       showSnackBar(content: res, context: context);
     }
@@ -49,6 +47,8 @@ class _LoginScreenState extends State<LoginScreen> {
       isLogin = false;
     });
   }
+
+
 
   @override
   Widget build(BuildContext context) {
@@ -124,6 +124,7 @@ class _LoginScreenState extends State<LoginScreen> {
                       press: () {
                         if (formKey.currentState!.validate()) {
                           sinIn();
+                          Navigator.pushReplacement(context, MaterialPageRoute(builder: (context)=>const ResponsiveLayout(webScreen: WebScreenLayout(), mobileScreen: MobileScreenLayout())));
                         }
                       },
                       oLayColor: Colors.white60),

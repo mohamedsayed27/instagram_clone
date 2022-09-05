@@ -14,6 +14,8 @@ class AuthMethods {
     DocumentSnapshot snap = await FirebaseFirestore.instance.collection('users').doc(currentUser.uid).get();
     return UserModel.fromSnap(snap);
   }
+
+
   Future<String> signUpUser({
     required String email,
     required String password,
