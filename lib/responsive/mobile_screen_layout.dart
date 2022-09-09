@@ -1,6 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:instagram_clone/models/user_model.dart';
+import 'package:instagram_clone/providers/user_provider.dart';
 import 'package:instagram_clone/utils/colors.dart';
 import 'package:flutter/cupertino.dart';
+import 'package:provider/provider.dart';
 
 import '../utils/global_variables.dart';
 
@@ -36,6 +39,8 @@ class _MobileScreenLayoutState extends State<MobileScreenLayout> {
       pageNumber = page;
     });
   }
+
+
 
   @override
   Widget build(BuildContext context) {

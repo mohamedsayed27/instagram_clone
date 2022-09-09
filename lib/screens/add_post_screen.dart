@@ -2,12 +2,10 @@ import 'dart:typed_data';
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:instagram_clone/providers/user_provider.dart';
-import 'package:instagram_clone/resources/firestore_methodes.dart';
+import 'package:instagram_clone/resources/firestore_methods.dart';
 import 'package:instagram_clone/utils/colors.dart';
 import 'package:instagram_clone/utils/utils.dart';
 import 'package:provider/provider.dart';
-
-import '../models/user_model.dart';
 
 class AddPostScreen extends StatefulWidget {
   const AddPostScreen({Key? key}) : super(key: key);
@@ -23,6 +21,7 @@ class _AddPostScreenState extends State<AddPostScreen> {
     descriptionController.dispose();
   }
 
+  bool isLoading = false;
   Uint8List? file;
   TextEditingController descriptionController = TextEditingController();
 
@@ -32,9 +31,16 @@ class _AddPostScreenState extends State<AddPostScreen> {
     required String profileImage,
   }) async{
     try{
+      setState(() {
+        isLoading = true;
+      });
       String res = await FirestoreMethods().uploadPost(discribtion: descriptionController.text, file: file!, uId: uId, userName: userName, profileImage: profileImage);
       if(res == 'Success'){
+        setState(() {
+          isLoading = false;
+        });
         showSnackBar(content: 'Posted', context: context);
+        removePostPhoto();
       }else{
         showSnackBar(content: res, context: context);
       }
@@ -85,9 +91,14 @@ class _AddPostScreenState extends State<AddPostScreen> {
     );
   }
 
+  void removePostPhoto(){
+      setState(() {
+        file = null;
+      });
+  }
   @override
   Widget build(BuildContext context) {
-    final UserModel user = Provider.of<UserProvider>(context).getUser;
+    final UserProvider provider = Provider.of<UserProvider>(context);
     return file == null
         ? Center(
             child: IconButton(
@@ -101,12 +112,14 @@ class _AddPostScreenState extends State<AddPostScreen> {
             appBar: AppBar(
               backgroundColor: mobileBackgroundColor,
               leading: IconButton(
-                  onPressed: () {}, icon: const Icon(Icons.arrow_back_ios)),
+                  onPressed: () {
+                      removePostPhoto();
+                  }, icon: const Icon(Icons.arrow_back_ios)),
               title: const Text('Add Post'),
               actions: [
                 TextButton(
                     onPressed: () {
-                      postImage(uId: user.userId!, userName: user.name!, profileImage: user.image!);
+                      postImage(uId: provider.getUser.userId!, userName: provider.getUser.name!, profileImage: provider.getUser.image!);
                     },
                     child: const Text(
                       'POST',
@@ -122,20 +135,24 @@ class _AddPostScreenState extends State<AddPostScreen> {
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
+                  if(isLoading ==true) const Padding(
+                    padding:  EdgeInsets.only(top: 2,bottom: 10),
+                    child:  LinearProgressIndicator(),
+                  ),
                   Row(
                     mainAxisAlignment: MainAxisAlignment.start,
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       CircleAvatar(
-                        backgroundImage: NetworkImage(user.image!),
+                        backgroundImage: NetworkImage(provider.getUser.image!),
                         radius: 40,
                       ),
                       SizedBox.fromSize(
-                        size: Size(10, 0),
+                        size: const Size(10, 0),
                       ),
                       Padding(
                         padding: const EdgeInsets.only(top: 15, right: 10),
-                        child: Text(user.name!),
+                        child: Text(provider.getUser.name!),
                       ),
                       Expanded(
                         child: SizedBox(
