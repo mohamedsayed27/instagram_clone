@@ -35,4 +35,24 @@ class FirestoreMethods {
     }
     return res;
   }
+
+
+  Future<void> postLikes({required String uId, required List likes, required String postId,bool isDoubleTab = true}) async{
+    try{
+      if(isDoubleTab && likes.contains(uId)){
+        null;
+      }else if(!isDoubleTab && likes.contains(uId)){
+        await fireStore.collection('posts').doc(postId).update({
+          'likes' : FieldValue.arrayRemove([uId]),
+        });
+      }
+      else{
+        await fireStore.collection('posts').doc(postId).update({
+          'likes' : FieldValue.arrayUnion([uId]),
+        });
+      }
+    }catch(error){
+      print(error.toString());
+    }
+  }
 }

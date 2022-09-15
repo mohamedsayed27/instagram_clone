@@ -1,17 +1,17 @@
-import 'package:flutter/material.dart';
-import 'package:instagram_clone/models/user_model.dart';
-import 'package:instagram_clone/resources/auth_methods.dart';
+import 'package:flutter/widgets.dart';
+import '../models/user_model.dart';
+import '../resources/auth_methods.dart';
+
 
 class UserProvider with ChangeNotifier {
-  UserModel? _userModel;
-
-  UserModel get getUser => _userModel!;
-
+  UserModel? _user;
   final AuthMethods _authMethods = AuthMethods();
+
+  UserModel get getUser => _user!;
 
   Future<void> refreshUser() async {
     UserModel user = await _authMethods.getUserDetails();
-    _userModel = user;
+    _user = user;
     notifyListeners();
   }
 }

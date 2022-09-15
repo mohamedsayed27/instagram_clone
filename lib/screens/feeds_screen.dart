@@ -1,6 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:instagram_clone/widgets/post_card.dart';
+import 'package:provider/provider.dart';
+import '../models/user_model.dart';
+import '../providers/user_provider.dart';
 import '../utils/colors.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 
