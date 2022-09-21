@@ -64,6 +64,7 @@ class FirestoreMethods {
         await fireStore.collection('posts').doc(postId).collection('comments').doc(commentId).set({
           'profilePic' : profilePic,
           'userName' : name,
+          'text' : text,
           'userId' : uId,
           'commentId' : commentId,
           'datePublished' : DateTime.now()
@@ -72,6 +73,46 @@ class FirestoreMethods {
         print('text is empty');
       }
     }catch(e){
+      print(e.toString());
+    }
+  }
+
+
+  Future<void> deletePost(String postId) async{
+    try{
+      await fireStore.collection('posts').doc(postId).delete();
+    }catch(e){
+      print(e.toString());
+    }
+  }
+
+  Future<void> followUser(
+      String uid,
+      String followId
+      ) async {
+    try {
+      DocumentSnapshot snap = await fireStore.collection('users').doc(uid).get();
+      List following = (snap.data()! as dynamic)['following'];
+
+      if(following.contains(followId)) {
+        await fireStore.collection('users').doc(followId).update({
+          'followers': FieldValue.arrayRemove([uid])
+        });
+
+        await fireStore.collection('users').doc(uid).update({
+          'following': FieldValue.arrayRemove([followId])
+        });
+      } else {
+        await fireStore.collection('users').doc(followId).update({
+          'followers': FieldValue.arrayUnion([uid])
+        });
+
+        await fireStore.collection('users').doc(uid).update({
+          'following': FieldValue.arrayUnion([followId])
+        });
+      }
+
+    } catch(e) {
       print(e.toString());
     }
   }
