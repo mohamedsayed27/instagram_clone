@@ -5,6 +5,7 @@ import 'package:provider/provider.dart';
 
 import '../models/user_model.dart';
 import '../providers/user_provider.dart';
+import '../screens/comments_screen.dart';
 import 'like_animation.dart';
 
 class PostCard extends StatefulWidget {
@@ -163,9 +164,11 @@ class _PostCardState extends State<PostCard> {
                 ),
               ),
               IconButton(
-                onPressed: () {},
+                onPressed: () {
+                  Navigator.of(context).push(MaterialPageRoute(builder: (context) => CommentsScreen(snap: widget.snap,)));
+                },
                 icon: const Icon(
-                  Icons.message_outlined,
+                  Icons.comment_outlined,
                 ),
               ),
               IconButton(
