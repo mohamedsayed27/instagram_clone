@@ -60,7 +60,7 @@ class _SearchScreenState extends State<SearchScreen> {
                       onTap: () => Navigator.of(context).push(
                         MaterialPageRoute(
                           builder: (context) => ProfileScreen(
-                            uid: (snapshot.data! as dynamic).docs[index]['uid'],
+                            uid: (snapshot.data! as dynamic).docs[index]['uId'],
                           ),
                         ),
                       ),
@@ -81,7 +81,7 @@ class _SearchScreenState extends State<SearchScreen> {
           : FutureBuilder(
               builder: (context, snapshot) {
                 if (!snapshot.hasData) {
-                  return Center(
+                  return const Center(
                     child: CircularProgressIndicator(),
                   );
                 }

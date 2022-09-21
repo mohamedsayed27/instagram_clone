@@ -12,6 +12,6 @@ var homeScreenItems = [
   const FeedsScreen(),
   const SearchScreen(),
   const AddPostScreen(),
-  const Center(child: Text('favorite')),
+  const Center(child: Text('saved posts')),
   ProfileScreen(uid: FirebaseAuth.instance.currentUser!.uid,),
 ];
