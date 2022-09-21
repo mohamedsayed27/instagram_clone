@@ -223,7 +223,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                           if (formKey.currentState!.validate()) {
                             final nav = Navigator.of(context);
                             await signUp();
-                            nav.push(MaterialPageRoute(builder: (context)=>const ResponsiveLayout(webScreen: WebScreenLayout(), mobileScreen: MobileScreenLayout())));
+                            nav.pushAndRemoveUntil(MaterialPageRoute(builder: (context)=>const ResponsiveLayout(webScreen: WebScreenLayout(), mobileScreen: MobileScreenLayout())), (route) => false);
                             // Navigator.pushReplacement(context, MaterialPageRoute(builder: (context)=>const ResponsiveLayout(webScreen: WebScreenLayout(), mobileScreen: MobileScreenLayout())));
                           }
                         },

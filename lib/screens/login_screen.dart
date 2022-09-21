@@ -30,7 +30,7 @@ class _LoginScreenState extends State<LoginScreen> {
     passwordController.dispose();
   }
 
-  void sinIn() async {
+  Future<void> sinIn() async {
     setState(() {
       isLogin = true;
     });
@@ -121,10 +121,11 @@ class _LoginScreenState extends State<LoginScreen> {
                       bColor: blueColor,
                       tColor: primaryColor,
                       text: 'Login',
-                      press: () {
+                      press: () async{
                         if (formKey.currentState!.validate()) {
-                          sinIn();
-                          Navigator.pushReplacement(context, MaterialPageRoute(builder: (context)=>const ResponsiveLayout(webScreen: WebScreenLayout(), mobileScreen: MobileScreenLayout())));
+                          final nav = Navigator.of(context);
+                          await sinIn();
+                          nav.pushReplacement(MaterialPageRoute(builder: (context)=>const ResponsiveLayout(webScreen: WebScreenLayout(), mobileScreen: MobileScreenLayout())));
                         }
                       },
                       oLayColor: Colors.white60),
