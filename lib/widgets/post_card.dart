@@ -1,10 +1,13 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:instagram_clone/resources/firestore_methods.dart';
 import 'package:instagram_clone/utils/colors.dart';
+import 'package:instagram_clone/utils/utils.dart';
 import 'package:provider/provider.dart';
 
 import '../models/user_model.dart';
 import '../providers/user_provider.dart';
+import '../screens/comments_screen.dart';
 import 'like_animation.dart';
 
 class PostCard extends StatefulWidget {
@@ -18,6 +21,22 @@ class PostCard extends StatefulWidget {
 
 class _PostCardState extends State<PostCard> {
   bool isLikeAnimating = false;
+  int commentsNumber = 0;
+  @override
+  void initState() {
+    super.initState();
+    getComments();
+  }
+
+  void getComments()async{
+    try{
+      QuerySnapshot snapshot = await FirebaseFirestore.instance.collection('posts').doc(widget.snap['postId']).collection('comments').get();
+      commentsNumber = snapshot.docs.length;
+    }catch(e){
+      showSnackBar(content: e.toString(), context: context);
+    }
+    setState(() {});
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -73,10 +92,13 @@ class _PostCardState extends State<PostCard> {
                             padding: const EdgeInsets.symmetric(
                               vertical: 14,
                             ),
-                            children: ['Delete', 'open']
+                            children: ['Delete']
                                 .map(
                                   (e) => InkWell(
-                                    onTap: () {},
+                                    onTap: () async{
+                                      await FirestoreMethods().deletePost(widget.snap['postId']);
+                                      Navigator.of(context).pop();
+                                    },
                                     child: Container(
                                       padding: const EdgeInsets.symmetric(
                                         vertical: 12,
@@ -163,9 +185,11 @@ class _PostCardState extends State<PostCard> {
                 ),
               ),
               IconButton(
-                onPressed: () {},
+                onPressed: () {
+                  Navigator.of(context).push(MaterialPageRoute(builder: (context) => CommentsScreen(snap: widget.snap,)));
+                },
                 icon: const Icon(
-                  Icons.message_outlined,
+                  Icons.comment_outlined,
                 ),
               ),
               IconButton(
@@ -221,12 +245,14 @@ class _PostCardState extends State<PostCard> {
                   )),
                 ),
                 InkWell(
-                  onTap: () {},
+                  onTap: () {
+                    Navigator.of(context).push(MaterialPageRoute(builder: (context) => CommentsScreen(snap: widget.snap,)));
+                  },
                   child: Container(
                     padding: const EdgeInsets.symmetric(vertical: 4),
-                    child: const Text(
-                      'view all 200 comments',
-                      style: TextStyle(
+                    child:  Text(
+                      'view $commentsNumber comments',
+                      style: const TextStyle(
                         fontSize: 16,
                         color: secondaryColor,
                       ),

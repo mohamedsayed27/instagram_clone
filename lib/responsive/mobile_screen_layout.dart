@@ -46,6 +46,7 @@ class _MobileScreenLayoutState extends State<MobileScreenLayout> {
   Widget build(BuildContext context) {
     return Scaffold(
       body: PageView(
+        physics: NeverScrollableScrollPhysics(),
         controller: pageController,
         onPageChanged: onPageChanged,
         children: homeScreenItems,
@@ -72,7 +73,7 @@ class _MobileScreenLayoutState extends State<MobileScreenLayout> {
             backgroundColor: primaryColor,
             label: ''),
                 BottomNavigationBarItem(
-            icon: Icon(Icons.favorite,
+            icon: Icon(Icons.bookmark_outlined,
                 color: pageNumber == 3 ? primaryColor : secondaryColor),
             backgroundColor: primaryColor,
             label: ''),

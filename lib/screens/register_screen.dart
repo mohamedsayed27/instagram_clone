@@ -45,7 +45,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
     });
   }
 
-  void signUp() async{
+  Future<void> signUp() async{
     setState((){
       isRegistering = true;
     });
@@ -221,8 +221,10 @@ class _RegisterScreenState extends State<RegisterScreen> {
                         text: 'Register',
                         press: () async {
                           if (formKey.currentState!.validate()) {
-                            signUp();
-                            Navigator.pushReplacement(context, MaterialPageRoute(builder: (context)=>const ResponsiveLayout(webScreen: WebScreenLayout(), mobileScreen: MobileScreenLayout())));
+                            final nav = Navigator.of(context);
+                            await signUp();
+                            nav.pushAndRemoveUntil(MaterialPageRoute(builder: (context)=>const ResponsiveLayout(webScreen: WebScreenLayout(), mobileScreen: MobileScreenLayout())), (route) => false);
+                            // Navigator.pushReplacement(context, MaterialPageRoute(builder: (context)=>const ResponsiveLayout(webScreen: WebScreenLayout(), mobileScreen: MobileScreenLayout())));
                           }
                         },
                         oLayColor: Colors.white60),

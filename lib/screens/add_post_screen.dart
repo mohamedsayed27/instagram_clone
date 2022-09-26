@@ -101,11 +101,18 @@ class _AddPostScreenState extends State<AddPostScreen> {
     final UserProvider provider = Provider.of<UserProvider>(context);
     return file == null
         ? Center(
-            child: IconButton(
-              onPressed: () {
-                _selectImage(context);
-              },
-              icon: const Icon(Icons.upload),
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                const Text('Choose Photo and Post what you want',style: TextStyle(fontSize: 18,fontWeight: FontWeight.bold,color: Colors.white),),
+                SizedBox(height: 20,),
+                IconButton(
+                  onPressed: () {
+                    _selectImage(context);
+                  },
+                  icon: const Icon(Icons.upload),
+                ),
+              ],
             ),
           )
         : Scaffold(

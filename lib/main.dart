@@ -26,7 +26,7 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MultiProvider(
       providers: [
-        ChangeNotifierProvider(create: (context)=>UserProvider())
+        ChangeNotifierProvider(create: (_)=>UserProvider())
       ],
       child: MaterialApp(
         title: 'instagram clone',
